@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 47log Frontend
 
-## Getting Started
+React + TypeScript + Viteで構築するSPAです。
+URLによる画面遷移にはReact Routerを使用します。
+UIにはTailwind CSS 4とshadcn/ui、LintにはESLint 10、整形にはPrettier、テストにはVitestとReact Testing Libraryを使用します。
 
-First, run the development server:
+## 環境構築
+
+### 必要なツール
+
+- Node.js 24系
+- pnpm 10系
+- Git
+
+Node.jsをインストールしたうえで、pnpmが未導入の場合は以下を実行します。
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install -g pnpm@12.6.0
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+バージョンを確認します。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+node --version
+pnpm --version
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 依存関係のインストールと起動
 
-## Learn More
+リポジトリをcloneした後、プロジェクト直下で実行します。
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd 47log-frontend
+pnpm install --frozen-lockfile
+pnpm dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`pnpm install --frozen-lockfile` は、`pnpm-lock.yaml` に記録された依存関係をインストールします。
+インストール時に `prepare` スクリプトも実行され、HuskyのGitフックが有効になります。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`pnpm dev` は開発サーバーを起動します。ターミナルに表示されたURLをブラウザで開いてください。
+標準のURLは `http://localhost:5173` です。ファイルを変更すると画面に反映されます。
+停止する場合は `Ctrl+C` を押します。
 
-## Deploy on Vercel
+## コマンド一覧
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+すべてプロジェクト直下で実行します。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| コマンド                          | 実行内容                                                                                      |
+| --------------------------------- | --------------------------------------------------------------------------------------------- |
+| `pnpm dev`                        | Viteの開発サーバーを起動する。変更を画面に反映する                                            |
+| `pnpm build`                      | TypeScriptの型チェック後、Viteで本番用ファイルを `dist/` に生成する                           |
+| `pnpm preview`                    | ビルド済みの `dist/` をローカルで表示する。本番用サーバーではない                             |
+| `pnpm lint`                       | ESLintでTypeScript・React Hooks・Fast Refreshなどのルール違反を検出する。ファイルは変更しない |
+| `pnpm format`                     | Prettierで対象ファイルを整形する。ファイルを書き換える                                        |
+| `pnpm format:check`               | Prettierの整形ルールに従っているか確認する。ファイルは変更しない                              |
+| `pnpm test`                       | Vitestを監視モードで起動し、変更に応じてテストを再実行する                                    |
+| `pnpm test:run`                   | Vitestでテストを一度だけ実行する。CIなどで使用する                                            |
+| `pnpm test:run --passWithNoTests` | テストを一度だけ実行する。テストがない場合も成功扱いにする                                    |
+| `pnpm prepare`                    | HuskyのGitフックを設定する。通常は依存関係のインストール時に自動実行される                    |
+
+本番用ビルドをローカルで確認する場合は、以下の順で実行します。
+
+```bash
+pnpm build
+pnpm preview
+```
+
+型チェックだけを実行する場合は、以下を使います。
+
+```bash
+pnpm exec tsc -b
+```
+
+## コミット前のチェック
+
+Huskyにより、`git commit` の直前に以下を順番に実行します。
+
+```bash
+pnpm lint
+pnpm format:check
+pnpm test:run --passWithNoTests
+```
+
+対象はステージ済みファイルだけではなく、各ツールの設定に従ったプロジェクト全体です。
+いずれかが失敗すると、後続のチェックとコミットを停止します。
+
+整形チェックで失敗した場合は、以下で整形し、変更したファイルを再度ステージしてください。
+
+```bash
+pnpm format
+git add <変更したファイル>
+```
+
+Lintやテストで失敗した場合は、表示された問題を修正してから再度コミットします。
+フックでは自動修正を行いません。
+
+現在はテストファイルを作成していないため、コミット時には `--passWithNoTests` を指定しています。
+テストを追加すると、そのテストが実行され、失敗時はコミットが止まります。
+`pnpm test:run` 単体は、テストがない場合に失敗します。
+
+## shadcn/uiの部品追加
+
+必要な部品名を指定して追加します。
+
+```bash
+pnpm dlx shadcn@latest add input card dialog
+pnpm format
+```
+
+部品は `src/components/ui/` に追加されます。
