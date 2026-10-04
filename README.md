@@ -4,6 +4,8 @@ React + TypeScript + Viteで構築するSPAです。
 URLによる画面遷移にはReact Routerを使用します。
 UIにはTailwind CSS 4とshadcn/ui、LintにはESLint 10、整形にはPrettier、テストにはVitestとReact Testing Libraryを使用します。
 
+画面・機能の配置方針は [src/README.md](src/README.md) を参照してください。
+
 ## 環境構築
 
 ### 必要なツール
@@ -41,6 +43,32 @@ pnpm dev
 `pnpm dev` は開発サーバーを起動します。ターミナルに表示されたURLをブラウザで開いてください。
 標準のURLは `http://localhost:5173` です。ファイルを変更すると画面に反映されます。
 停止する場合は `Ctrl+C` を押します。
+
+## 環境変数・設定値
+
+Viteの標準機能で開発環境と本番環境の設定を切り替えます。
+必要な設定ができたら、プロジェクト直下に以下のファイルを作成します。
+
+| ファイル           | 使用するコマンド |
+| ------------------ | ---------------- |
+| `.env.development` | `pnpm dev`       |
+| `.env.production`  | `pnpm build`     |
+
+例えば、APIの接続先は各ファイルに次の形式で設定します。
+
+```dotenv
+VITE_API_BASE_URL=https://api.example.com
+```
+
+コードでは `import.meta.env.VITE_API_BASE_URL` で参照します。
+共通の設定の読み取りは `src/lib/` にまとめ、API呼び出し処理から利用します。
+
+手元だけの値は `.env.development.local` などの `.local` ファイルで上書きできます。
+これらはGit管理対象外です。CIでビルドする場合は、同名の環境変数を渡すこともできます。
+環境変数を変更したら開発サーバーを再起動してください。
+
+本番の値はビルド時に組み込まれるため、変更時は再ビルドが必要です。
+`VITE_` で始まる値はブラウザに公開されるので、秘密鍵やパスワードは設定しません。
 
 ## コマンド一覧
 
