@@ -123,8 +123,8 @@ git add <変更したファイル>
 Lintやテストで失敗した場合は、表示された問題を修正してから再度コミットします。
 フックでは自動修正を行いません。
 
-現在はテストファイルを作成していないため、コミット時には `--passWithNoTests` を指定しています。
-テストを追加すると、そのテストが実行され、失敗時はコミットが止まります。
+コミット時は `--passWithNoTests` を指定していますが、テストファイルがある場合はそのテストを実行します。
+テストが失敗するとコミットが止まります。現在は共通エラー表示とError Boundaryのテストを用意しています。
 `pnpm test:run` 単体は、テストがない場合に失敗します。
 
 ## shadcn/uiの部品追加
@@ -136,4 +136,4 @@ pnpm dlx shadcn@latest add input card dialog
 pnpm format
 ```
 
-部品は `src/components/ui/` に追加されます。
+部品は `src/components/elements/` に追加されます。
