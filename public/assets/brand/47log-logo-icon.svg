@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 838 754" role="img" aria-label="47Log logo icon">
+<defs>
+  <linearGradient id="g1" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#00647d"/><stop offset="55%" stop-color="#159aa2"/><stop offset="100%" stop-color="#35d2c0"/>
+  </linearGradient>
+  <linearGradient id="g2" x1="0%" y1="100%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#00647d"/><stop offset="52%" stop-color="#1498a2"/><stop offset="100%" stop-color="#35d2c0"/>
+  </linearGradient>
+</defs>
+<path d="M 405 86 L 95 396 L 445 396" fill="none" stroke="url(#g1)" stroke-width="185" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M 355 396 L 720 396 L 485 650" fill="none" stroke="url(#g2)" stroke-width="185" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
