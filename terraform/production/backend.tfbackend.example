@@ -1,0 +1,3 @@
+# 事前に作成済みのstate保存用バケットを指定する。
+bucket = "47log-tfstate-123456789012"
+region = "ap-northeast-1"
